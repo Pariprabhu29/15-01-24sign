@@ -81,7 +81,7 @@ def pred_main():
     else:
         method = 1
 
-    model = "Predict_signs/files/CNN"
+    model = "files/CNN"
 
     infile = open(model, "rb")
     cnn = pickle.load(infile)
@@ -141,7 +141,7 @@ def pred_main():
     while cam.isOpened():
         _, frame = cam.read(cv2.CAP_DSHOW)
         if frame is not None:
-            orig_signs = cv2.imread("Predict_signs/files/signs.png")
+            orig_signs = cv2.imread("files/signs.png")
             signs = cv2.resize(orig_signs, (600, 600))
             cv2.imshow("Signs", signs)
             frame = imutils.resize(frame, width=700)
@@ -288,22 +288,29 @@ def pred_main():
                                         ).start()
                                         # prev_sign=predict_sign
                                     prev_sign = predict_sign
-                                # print(words_list)
-                                # cv2.putText(clone,'Sign'+str(predict_sign), (100, 300), cv2.FONT_HERSHEY_COMPLEX, 2, (0, 0, 0))
+                                print(words_list)
+                                cv2.putText(
+                                    clone,
+                                    "Sign" + str(predict_sign),
+                                    (100, 300),
+                                    cv2.FONT_HERSHEY_COMPLEX,
+                                    2,
+                                    (0, 0, 0),
+                                )
 
-                            """print(final_sign, " ", prev_sign," ",prob)
-                            #if prev_sign and prob>=90:
+                            print(final_sign, " ", prev_sign, " ", prob)
+                            # if prev_sign and prob>=90:
                             if final_sign == prev_sign:
-                                count+=1
+                                count += 1
                             else:
-                                count=0
+                                count = 0
 
-                            if count>15:
+                            if count > 15:
                                 Thread(target=say_sign, args=(final_sign,)).start()
-                                count=0
+                                count = 0
 
-                            prev_sign=final_sign
-                            print(count)"""
+                            prev_sign = final_sign
+                            print(count)
 
                         else:
                             if words_list is not None:

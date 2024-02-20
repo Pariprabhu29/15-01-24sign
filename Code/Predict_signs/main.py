@@ -18,17 +18,18 @@ from creating_dataset import cd_main
 from Prediction import pred_main
 from Reverse_Recognition import rr_main
 
-#global variables
-bg=None
-selection=1
+# global variables
+bg = None
+selection = 1
 
 
 # =====================Create Database=============================================
 def createdb():
-    conn = sqlite3.connect('files/users_info.db')
+    conn = sqlite3.connect("files/users_info.db")
     c = conn.cursor()
     c.execute(
-        "CREATE TABLE IF NOT EXISTS users (name TEXT , passs TEXT,sqltime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL)")
+        "CREATE TABLE IF NOT EXISTS users (name TEXT , passs TEXT,sqltime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL)"
+    )
     conn.commit()
     conn.close()
 
@@ -47,7 +48,10 @@ def saveadmin():
     else:
         conn = sqlite3.connect("files/users_info.db")
         c = conn.cursor()
-        c.execute("INSERT INTO users(name,passs) VALUES(?,?) ", (name_entry.get(), pass_entry.get()))
+        c.execute(
+            "INSERT INTO users(name,passs) VALUES(?,?) ",
+            (name_entry.get(), pass_entry.get()),
+        )
         conn.commit()
         messagebox.showinfo("Information", "New User has been Added")
 
@@ -59,7 +63,7 @@ def loggin():
         b = pass2_entry.get()
         with sqlite3.connect("files/users_info.db") as db:
             cursor = db.cursor()
-        find_user = ("SELECT * FROM users WHERE name = ? AND passs = ?")
+        find_user = "SELECT * FROM users WHERE name = ? AND passs = ?"
         cursor.execute(find_user, [(a), (b)])
         results = cursor.fetchall()
         if results:
@@ -79,15 +83,33 @@ def loggin():
                     frame.place(x=0, y=0, width=400, height=400)
                 window2.geometry("400x400+420+170")
                 window2.resizable(False, False)
-                label3 = Label(f1, text="User Panel", font=("arial", 20, "bold"), bg="grey16", fg="white",
-                               relief=SUNKEN)
+                label3 = Label(
+                    f1,
+                    text="User Panel",
+                    font=("arial", 20, "bold"),
+                    bg="grey16",
+                    fg="white",
+                    relief=SUNKEN,
+                )
                 label3.pack(side=TOP, fill=X)
 
-                label4 = Label(f2, text="                            Indian Sign Language Recognition System", font=("arial", 10, "bold"), bg="grey16",
-                               fg="white")
+                label4 = Label(
+                    f2,
+                    text="                            Indian Sign Language Recognition System",
+                    font=("arial", 10, "bold"),
+                    bg="grey16",
+                    fg="white",
+                )
                 label4.pack(side=BOTTOM, fill=X)
-                statusbar = Label(f1, text="                            Indian Sign Language Recognition System", font=("arial", 8, "bold"),
-                                  bg="grey16", fg="white", relief=SUNKEN, anchor=W)
+                statusbar = Label(
+                    f1,
+                    text="                            Indian Sign Language Recognition System",
+                    font=("arial", 8, "bold"),
+                    bg="grey16",
+                    fg="white",
+                    relief=SUNKEN,
+                    anchor=W,
+                )
                 statusbar.pack(side=BOTTOM, fill=X)
 
                 class AnimatedGIF(Label, object):
@@ -101,7 +123,9 @@ def loggin():
                         i = 0
                         try:
                             while True:
-                                photoframe = ImageTk.PhotoImage(im.copy().convert('RGBA'))
+                                photoframe = ImageTk.PhotoImage(
+                                    im.copy().convert("RGBA")
+                                )
                                 self._frames.append(photoframe)
                                 i += 1
                                 im.seek(i)
@@ -109,14 +133,15 @@ def loggin():
                             pass
                         self._last_index = len(self._frames) - 1
                         try:
-                            self._delay = im.info['duration']
+                            self._delay = im.info["duration"]
                         except:
                             self._delay = 100
                         self._callback_id = None
                         super(AnimatedGIF, self).__init__(master, image=self._frames[0])
 
                     def start_animation(self, frame=None):
-                        if self._is_running: return
+                        if self._is_running:
+                            return
                         if frame is not None:
                             self._loc = 0
                             self.configure(image=self._frames[frame])
@@ -124,7 +149,8 @@ def loggin():
                         self._is_running = True
 
                     def stop_animation(self):
-                        if not self._is_running: return
+                        if not self._is_running:
+                            return
                         if self._callback_id is not None:
                             self.after_cancel(self._callback_id)
                             self._callback_id = None
@@ -136,12 +162,16 @@ def loggin():
                         if self._loc == self._last_index:
                             if self._forever:
                                 self._loc = 0
-                                self._callback_id = self._master.after(self._delay, self._animate_GIF)
+                                self._callback_id = self._master.after(
+                                    self._delay, self._animate_GIF
+                                )
                             else:
                                 self._callback_id = None
                                 self._is_running = False
                         else:
-                            self._callback_id = self._master.after(self._delay, self._animate_GIF)
+                            self._callback_id = self._master.after(
+                                self._delay, self._animate_GIF
+                            )
 
                     def pack(self, start_animation=True, **kwargs):
                         if start_animation:
@@ -174,8 +204,13 @@ def loggin():
                     l = AnimatedGIF(f1, "files/gif2.gif")
                     l.pack()
 
-                label4 = Label(f3, text="                            Indian Sign Language Recognition System", font=("arial", 10, "bold"), bg="grey16",
-                               fg="white")
+                label4 = Label(
+                    f3,
+                    text="                            Indian Sign Language Recognition System",
+                    font=("arial", 10, "bold"),
+                    bg="grey16",
+                    fg="white",
+                )
                 label4.pack(side=BOTTOM, fill=X)
 
                 # =========================Main Buttons=========================================
@@ -191,18 +226,31 @@ def loggin():
 
                 # =========================Developers Page=========================================
 
-                label10 = Label(f4, text="", font=("arial", 20, "bold"), bg="grey16", fg="white")
+                label10 = Label(
+                    f4, text="", font=("arial", 20, "bold"), bg="grey16", fg="white"
+                )
                 label10.pack(side=TOP, fill=X)
-                label11 = Label(f4, text="     Indian Sign Language Recognition System", font=("arial", 10, "bold"), bg="grey16",
-                                fg="white")
+                label11 = Label(
+                    f4,
+                    text="     Indian Sign Language Recognition System",
+                    font=("arial", 10, "bold"),
+                    bg="grey16",
+                    fg="white",
+                )
                 label11.pack(side=BOTTOM, fill=X)
 
-                label10 = Label(f4, text=" Information Will be Added Soon!", font=("arial", 12, "bold"))
+                label10 = Label(
+                    f4,
+                    text=" Information Will be Added Soon!",
+                    font=("arial", 12, "bold"),
+                )
                 label10.place(x=75, y=150)
 
                 def swap4(frame):
                     frame.tkraise()
-                    statusbar['text'] = '                            Indian Sign Language Recognition System'
+                    statusbar[
+                        "text"
+                    ] = "                            Indian Sign Language Recognition System"
 
                 btn4w2 = ttk.Button(f4, text="Back	", command=lambda: swap4(f1))
                 btn4w2.place(x=3, y=40, width=50, height=30)
@@ -232,7 +280,9 @@ def loggin():
 
 window = Tk()
 window.title("Login Panel")
-Label1 = Label(window, text="Login Panel", font=("arial", 20, "bold"), bg="grey19", fg="white")
+Label1 = Label(
+    window, text="Login Panel", font=("arial", 20, "bold"), bg="grey19", fg="white"
+)
 Label1.pack(side=TOP, fill=X)
 Label2 = Label(window, text="", font=("arial", 10, "bold"), bg="grey19", fg="white")
 Label2.pack(side=BOTTOM, fill=X)
@@ -278,6 +328,7 @@ pass_entry.place(x=90, y=40)
 def clear():
     name_entry.delete(0, END)
     pass_entry.delete(0, END)
+
 
 # ===============User Buttons==============================================
 
